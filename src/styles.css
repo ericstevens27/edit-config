@@ -1,1 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+html, body, form, fieldset, table, tr, td, img, p {
+  margin: 0;
+  padding: 0;
+  font: 100%/150% Arial,helvetica,sans-serif;
+}
+
+input, button, select, textarea, optgroup, option {
+  font-family: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+}
+
+body {
+  background:
+    white;
+  background-size: cover;
+}

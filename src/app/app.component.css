@@ -1,0 +1,37 @@
+.xmlFormat {
+   font-family: monospace;
+}
+
+.options {
+  padding-bottom: 5px;
+
+}
+
+.tab1 {
+  margin-left: 1em;
+}
+
+.tab2 {
+  margin-left: 2em;
+}
+
+.tab3 {
+  margin-left: 3em;
+}
+
+.tab4 {
+  margin-left: 4em;
+}
+
+.left {
+  float: left;
+  padding-left: 25px;
+}
+
+.right {
+  padding-left: 45em;
+}
+
+h1 {
+  padding-left: 10px;
+}

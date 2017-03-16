@@ -1,3 +1,112 @@
 <h1>
   {{title}}
 </h1>
+
+<div class="left">
+  <h2>Launcher Configuration Options</h2>
+  <p class="options">Disable Apps Button?
+    <input type="checkbox" [(ngModel)]="disableAppsButton"/></p>
+  <p class="options">Hide Google Search Bar?
+    <input type="checkbox" [(ngModel)]="hideGoogleSearchBar"/></p>
+  <p class="options">Enter an Application component name <br>(e.g. com.android.chrome) to allow in the App Drawer<br>
+    <input type="input" (blur)="onKey($event)" [(ngModel)]="appToAdd"/></p>
+  <p class="options">Apps added (click to remove):</p>
+  <p *ngFor="let a of appFilterList" [class.selected]="a === selectedApp" (click)="onRemoveApp(a)">{{a}}</p>
+  <h3 >Reserved Areas - Screen</h3>
+  <p class="options">Checked areas will be reserved</p>
+  <table>
+    <tbody>
+    <tr>
+      <td><input type="checkbox" [(ngModel)]="resArea[0][0]"/></td>
+      <td><input type="checkbox" [(ngModel)]="resArea[0][1]"/></td>
+      <td><input type="checkbox" [(ngModel)]="resArea[0][2]"/></td>
+      <td><input type="checkbox" [(ngModel)]="resArea[0][3]"/></td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" [(ngModel)]="resArea[1][0]"/></td>
+      <td><input type="checkbox" [(ngModel)]="resArea[1][1]"/></td>
+      <td><input type="checkbox" [(ngModel)]="resArea[1][2]"/></td>
+      <td><input type="checkbox" [(ngModel)]="resArea[1][3]"/></td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" [(ngModel)]="resArea[2][0]"/></td>
+      <td><input type="checkbox" [(ngModel)]="resArea[2][1]"/></td>
+      <td><input type="checkbox" [(ngModel)]="resArea[2][2]"/></td>
+      <td><input type="checkbox" [(ngModel)]="resArea[2][3]"/></td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" [(ngModel)]="resArea[3][0]"/></td>
+      <td><input type="checkbox" [(ngModel)]="resArea[3][1]"/></td>
+      <td><input type="checkbox" [(ngModel)]="resArea[3][2]"/></td>
+      <td><input type="checkbox" [(ngModel)]="resArea[3][3]"/></td>
+    </tr>
+    </tbody>
+  </table>
+  <h3 >Reserved Areas - HotSeat</h3>
+  <p class="options">Checked areas will be reserved</p>
+  <table>
+    <tbody>
+    <tr>
+      <td><input type="checkbox" [(ngModel)]="resHotSeat[0]"/></td>
+      <td><input type="checkbox" [(ngModel)]="resHotSeat[1]"/></td>
+      <td><input type="checkbox" [(ngModel)]="resHotSeat[2]"/></td>
+      <td><input type="checkbox" [(ngModel)]="resHotSeat[3]"/></td>
+      <td><input type="checkbox" [(ngModel)]="resHotSeat[4]"/></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="right">
+  <h2>Configuration Output</h2>
+  <p><i>Copy and paste this into a configuration file for use with the Launcher</i></p>
+  <p><br></p>
+
+<div class="xmlFormat">
+  <p>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</p>
+  <p class="tab1">&lt;restrictions xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; &gt;</p>
+
+  <p class="tab2">&lt;restriction</p>
+  <p class="tab3">android:key=&quot;disable.apps.button&quot;</p>
+  <p class="tab3">android:defaultValue=&quot;{{disableAppsButton}}&quot;</p>
+  <p class="tab3">android:restrictionType=&quot;bool&quot;</p>
+  <p class="tab3">android:title=&quot;All apps button is visible&quot; /&gt;</p>
+
+  <p class="tab2">&lt;restriction</p>
+  <p class="tab3">android:key=&quot;hide.google.search.bar&quot;</p>
+  <p class="tab3">android:defaultValue=&quot;{{hideGoogleSearchBar}}&quot;</p>
+  <p class="tab3">android:restrictionType=&quot;bool&quot;</p>
+  <p class="tab3">android:title=&quot;Hides the Google search bar at the top.&quot; /&gt;</p>
+
+  <p class="tab2">&lt;restriction</p>
+  <p class="tab3">android:key=&quot;app.filter.list&quot;</p>
+  <p class="tab3">android:defaultValue=&quot;[</p>
+  <p class="tab4" *ngFor="let a of appFilterList; let i = index">{{quoteString}}{{a}}{{quoteString}}<span *ngIf="i != appFilterList.length-1">,</span></p>
+  <p class="tab3">]&quot;</p>
+  <p class="tab3">android:restrictionType=&quot;string&quot;</p>
+  <p class="tab3">android:title=&quot;White list of apps allowed to appear in the app drawer&quot; /&gt;</p>
+
+  <p class="tab2">&lt;restriction</p>
+  <p class="tab3">android:key=&quot;reserved.areas&quot;</p>
+  <p class="tab3">android:defaultValue=&quot; {{bracketOpen}}</p>
+  <p class="tab3">{{quoteString}}gridReservedCells{{quoteString}}: [</p>
+  <p class="tab4">
+    <ng-container *ngFor="let r of resArea; let i = index">
+      [
+    <ng-container *ngFor="let c of resArea; let j = index">
+      {{resArea[i][j]}}<span *ngIf="j != 3">,</span>
+    </ng-container>
+      ]<span *ngIf="i != 3">,</span>
+  </ng-container></p>
+  <p class="tab3">],</p>
+  <p class="tab4">{{quoteString}}hotseatReservedCells{{quoteString}}: [</p>
+  <p class="tab4">
+    <ng-container *ngFor="let r of resHotSeat; let i = index">
+        {{resHotSeat[i]}}<span *ngIf="i != 4">,</span>
+    </ng-container></p>
+  <p class="tab3">] {{bracketClose}}&quot;</p>
+  <p class="tab3">android:restrictionType=&quot;string&quot;</p>
+  <p class="tab3">android:title=&quot;Reserved areas on the screen where icons cannot be placed&quot; /&gt;</p>
+
+  <p class="tab1">&lt;/restrictions&gt;</p>
+</div>
+</div>
