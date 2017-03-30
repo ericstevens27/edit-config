@@ -1,112 +1,272 @@
-<h1>
+<script src="app.module.ts"></script><h1>
   {{title}}
 </h1>
 
-<div class="left">
-  <h2>Launcher Configuration Options</h2>
-  <p class="options">Disable Apps Button?
-    <input type="checkbox" [(ngModel)]="disableAppsButton"/></p>
-  <p class="options">Hide Google Search Bar?
-    <input type="checkbox" [(ngModel)]="hideGoogleSearchBar"/></p>
-  <p class="options">Enter an Application component name <br>(e.g. com.android.chrome) to allow in the App Drawer<br>
-    <input type="input" (blur)="onKey($event)" [(ngModel)]="appToAdd"/></p>
-  <p class="options">Apps added (click to remove):</p>
-  <p *ngFor="let a of appFilterList" [class.selected]="a === selectedApp" (click)="onRemoveApp(a)">{{a}}</p>
-  <h3 >Reserved Areas - Screen</h3>
-  <p class="options">Checked areas will be reserved</p>
-  <table>
-    <tbody>
-    <tr>
-      <td><input type="checkbox" [(ngModel)]="resArea[0][0]"/></td>
-      <td><input type="checkbox" [(ngModel)]="resArea[0][1]"/></td>
-      <td><input type="checkbox" [(ngModel)]="resArea[0][2]"/></td>
-      <td><input type="checkbox" [(ngModel)]="resArea[0][3]"/></td>
-    </tr>
-    <tr>
-      <td><input type="checkbox" [(ngModel)]="resArea[1][0]"/></td>
-      <td><input type="checkbox" [(ngModel)]="resArea[1][1]"/></td>
-      <td><input type="checkbox" [(ngModel)]="resArea[1][2]"/></td>
-      <td><input type="checkbox" [(ngModel)]="resArea[1][3]"/></td>
-    </tr>
-    <tr>
-      <td><input type="checkbox" [(ngModel)]="resArea[2][0]"/></td>
-      <td><input type="checkbox" [(ngModel)]="resArea[2][1]"/></td>
-      <td><input type="checkbox" [(ngModel)]="resArea[2][2]"/></td>
-      <td><input type="checkbox" [(ngModel)]="resArea[2][3]"/></td>
-    </tr>
-    <tr>
-      <td><input type="checkbox" [(ngModel)]="resArea[3][0]"/></td>
-      <td><input type="checkbox" [(ngModel)]="resArea[3][1]"/></td>
-      <td><input type="checkbox" [(ngModel)]="resArea[3][2]"/></td>
-      <td><input type="checkbox" [(ngModel)]="resArea[3][3]"/></td>
-    </tr>
-    </tbody>
-  </table>
-  <h3 >Reserved Areas - HotSeat</h3>
-  <p class="options">Checked areas will be reserved</p>
-  <table>
-    <tbody>
-    <tr>
-      <td><input type="checkbox" [(ngModel)]="resHotSeat[0]"/></td>
-      <td><input type="checkbox" [(ngModel)]="resHotSeat[1]"/></td>
-      <td><input type="checkbox" [(ngModel)]="resHotSeat[2]"/></td>
-      <td><input type="checkbox" [(ngModel)]="resHotSeat[3]"/></td>
-      <td><input type="checkbox" [(ngModel)]="resHotSeat[4]"/></td>
-    </tr>
-    </tbody>
-  </table>
+<div class="container">
+  <ngb-tabset>
+    <ngb-tab title="Config Options">
+      <template ngbTabContent>
+        <div>
+          <h2>Launcher Configuration Options</h2>
+          <p class="options">Use all restriction sections, always?
+            <input type="checkbox" (blur)="setAllShow()" [(ngModel)]="showAll"/></p>
+
+          <ngb-accordion #acc="ngbAccordion" aciveIds="ngb-panel-0">
+            <ngb-panel title="Disable the Application Drawer: {{entries[0].value}}">
+              <template ngbPanelContent>
+                <p class="options">Disable Apps Button?
+                  <input type="checkbox" (blur)="setShow(0)" [(ngModel)]="entries[0].value"/></p>
+              </template>
+            </ngb-panel>
+            <ngb-panel title="Hide Search Bar: {{entries[1].value}}">
+              <template ngbPanelContent>
+                <p class="options">Hide Google Search Bar?
+                  <input type="checkbox" (blur)="setShow(1)" [(ngModel)]="entries[1].value"/></p>
+              </template>
+            </ngb-panel>
+            <ngb-panel title="Application Drawer White List: {{entries[2].value.length}} entries">
+              <template ngbPanelContent>
+                <p class="options">Enter an Application component name <br>(e.g. com.android.chrome) to allow in the App
+                  Drawer<br>
+                  <input type="input" class="entry" [(ngModel)]="appToAdd"/>
+                  <button class="close-image" (click)="onAddApp($event)"><img src="../assets/shortcuticon.png"
+                                                                              alt="Add">
+                  </button>
+                </p>
+                <p class="options"><i>Apps that will be visible (click to remove):</i></p>
+                <hr/>
+                <p class="list" *ngFor="let a of entries[2].value" [class.selected]="a === selectedApp"
+                   (click)="onRemoveApp(a)">{{a}}</p>
+                <hr/>
+              </template>
+            </ngb-panel>
+            <ngb-panel title="Reserved Areas - Screen">
+              <template ngbPanelContent>
+                <p class="options">Checked areas will be reserved</p>
+                <table>
+                  <tbody>
+                  <tr>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][0][0]"/>
+                    </td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][1][0]"/>
+                    </td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][2][0]"/>
+                    </td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][3][0]"/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][0][1]"/>
+                    </td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][1][1]"/>
+                    </td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][2][1]"/>
+                    </td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][3][1]"/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][0][2]"/>
+                    </td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][1][2]"/>
+                    </td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][2][2]"/>
+                    </td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][3][2]"/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][0][3]"/>
+                    </td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][1][3]"/>
+                    </td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][2][3]"/>
+                    </td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][3][3]"/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][0][4]"/>
+                    </td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][1][4]"/>
+                    </td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][2][4]"/>
+                    </td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.gridReservedCells[0][3][4]"/>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </template>
+            </ngb-panel>
+            <ngb-panel title="Reserved Areas - HotSeat">
+              <template ngbPanelContent>
+                <p class="options">Checked areas will be reserved</p>
+                <table>
+                  <tbody>
+                  <tr>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.hotseatReservedCells[0]"/></td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.hotseatReservedCells[1]"/></td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.hotseatReservedCells[2]"/></td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.hotseatReservedCells[3]"/></td>
+                    <td><input type="checkbox" (blur)="setShow(3)" [(ngModel)]="resArea.hotseatReservedCells[4]"/></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </template>
+            </ngb-panel>
+            <ngb-panel title="Content Wall: {{entries[4].value}}">
+              <template ngbPanelContent>
+                <p class="options">Enable the Content Wall?
+                  <input type="checkbox" (blur)="setShow(4)" [(ngModel)]="entries[4].value"/></p>
+                <div *ngIf="entries[4].value">
+                  <p class="options">Enter the URL to add to the content wall<br>
+                    <input type="input" class="entry" [(ngModel)]="urlToAdd"/>
+                    <button class="close-image" (click)="onAddContent($event)"><img src="../assets/shortcuticon.png"
+                                                                                    alt="Add">
+                    </button>
+                  </p>
+                  <p class="options"><i>URLs to be used on Content Wall (click to remove):</i></p>
+                  <hr/>
+                  <p class="list" *ngFor="let a of contentWallList" [class.selected]="a === selectedURL"
+                     (click)="onRemoveURL(a)">{{a}}</p>
+                  <hr/>
+                </div>
+              </template>
+            </ngb-panel>
+            <ngb-panel title="Initial Layout: {{initEditList.length - -hsEditList.length}} entries">
+              <template ngbPanelContent>
+                <p class="options">Enter a Package Name and the required information <br>to be added to the initial
+                  screen
+                  layout</p>
+                <p class="options">Favorite? <input type="checkbox" [(ngModel)]="initFav"/></p>
+                <p class="options>">Package Name: <input type="input" class="entry" [(ngModel)]="initPackageName"/></p>
+                <p class="options">Is Pinned? <input type="checkbox" [(ngModel)]="initIsPinned"/></p>
+                <p class="options>">Screen: <input type="input" [(ngModel)]="initScreen"/></p>
+                <p class="options>">X: <input type="input" [(ngModel)]="initX"/></p>
+                <p class="options>">Y: <input type="input" [(ngModel)]="initY "/></p>
+                <p class="options>">
+                  <button (click)="onAddInit($event)">Add</button>
+                </p>
+                <p class="tight"><i>Apps that will be placed (click to remove):</i></p>
+                <hr/>
+                <p class="list" *ngFor="let a of initEditList" [class.selected]="a === selectedApp"
+                   (click)="onRemoveInit(a)">{{a}}</p>
+                <hr/>
+                <p class="options">Enter a Package Name and the required information <br>to be added to the initial hot
+                  seat
+                  layout</p>
+                <p class="options>">Package Name: <input type="input" class="entry" [(ngModel)]="hsPackageName"/></p>
+                <p class="options">Is Pinned? <input type="checkbox" [(ngModel)]="hsIsPinned"/></p>
+                <p class="options>">Hot Seat Slot: <input type="input" [(ngModel)]="hsSlot"/></p>
+                <p class="options>">
+                  <button (click)="onAddHS($event)">Add</button>
+                </p>
+                <p class="tight"><i>Apps that will be in Hotseat (click to remove):</i></p>
+                <hr/>
+                <p class="list" *ngFor="let a of hsEditList" [class.selected]="a === selectedApp"
+                   (click)="onRemoveInit(a)">{{a}}</p>
+                <hr/>
+              </template>
+            </ngb-panel>
+            <ngb-panel title="Preferred Locations: {{prefEditList.length}} entries">
+              <template ngbPanelContent>
+                <p class="options">Enter a Package Name and the required information <br>to set the preferred
+                  location for the app</p>
+                <p class="options>">Package Name: <input type="input" [(ngModel)]="prefPackageName"/></p>
+                <p class="options">Is Pinned? <input type="checkbox" [(ngModel)]="prefIsPinned"/></p>
+                <p class="options>">Screen: <input type="input" [(ngModel)]="prefScreen"/></p>
+                <p class="options>">X: <input type="input" [(ngModel)]="prefX"/></p>
+                <p class="options>">Y: <input type="input" [(ngModel)]="prefY "/></p>
+                <p class="options>">
+                  <button (click)="onAddPref($event)">Add</button>
+                </p>
+                <p class="options"><i>Apps that will be placed (click to remove):</i></p>
+                <p *ngFor="let a of prefEditList" [class.selected]="a === selectedApp" (click)="onRemovePref(a)">
+                  {{a}}</p>
+              </template>
+            </ngb-panel>
+            <ngb-panel title="Analytics Account ID: {{entries[8].value}}">
+              <template ngbPanelContent>
+                <p class="options">Enter the Account ID for Flurry Analytics<br>
+                  <input type="input" class="entry" (blur)="toggleShow(8)" [(ngModel)]="entries[8].value"/>
+              </template>
+            </ngb-panel>
+            <ngb-panel title="Create Initial App Shortcuts: {{entries[9].value}}">
+              <template ngbPanelContent>
+                <p class="options">Create shortcuts for initial apps?
+                  <input type="checkbox" (blur)="setShow(9)" [(ngModel)]="entries[9].value"/></p>
+              </template>
+            </ngb-panel>
+            <ngb-panel title="Widget Locations: {{widEditList.length}} entries">
+              <template ngbPanelContent>
+                <p class="options">Enter a Package Name and the required information <br>to set the widget
+                  location for the app</p>
+                <p class="options>">Package Name: <input type="input" [(ngModel)]="widPackageName"/></p>
+                <p class="options>">Class Name: <input type="input" [(ngModel)]="widClassName"/></p>
+
+                <p class="options">Is Pinned? <input type="checkbox" [(ngModel)]="widIsPinned"/></p>
+                <p class="options>">Screen: <input type="input" [(ngModel)]="widScreen"/></p>
+                <p class="options>">X: <input type="input" [(ngModel)]="widX"/></p>
+                <p class="options>">Y: <input type="input" [(ngModel)]="widY "/></p>
+                <p class="options>">Span X: <input type="input" [(ngModel)]="widSpanX"/></p>
+                <p class="options>">span Y: <input type="input" [(ngModel)]="widSpanY "/></p>
+                <p class="options>">Type: <input type="input" [(ngModel)]="widType"/></p>
+
+                <p class="options>">
+                  <button (click)="onAddwid($event)">Add</button>
+                </p>
+                <p class="options"><i>Apps that will be placed (click to remove):</i></p>
+                <p *ngFor="let a of widEditList" [class.selected]="a === selectedApp" (click)="onRemovewid(a)">
+                  {{a}}</p>
+              </template>
+            </ngb-panel>
+            <ngb-panel title="Content Tab Image: {{entries[11].value}}">
+              <template ngbPanelContent>
+                <p class="options">enter the URL for the content tab image<br>
+                  <input type="input" class="entry" (blur)="toggleShow(11)" [(ngModel)]="entries[11].value"/>
+              </template>
+            </ngb-panel>
+            <ngb-panel title="Content Tab Color: {{entries[12].value}}">
+              <template ngbPanelContent>
+                <p class="options">Enter the code code for the content wall tab<br>
+                  <input type="input" class="entry" (blur)="toggleShow(12)" [(ngModel)]="entries[12].value"/>
+              </template>
+            </ngb-panel>
+          </ngb-accordion>
+        </div>
+      </template>
+    </ngb-tab>
+    <ngb-tab>
+      <template ngbTabTitle>Show <b>Configuration File</b></template>
+      <template ngbTabContent>
+        <div>
+          <h2>Configuration Output</h2>
+          <p><i>Copy and paste this into a configuration file for use with the Launcher</i></p>
+<!--          <p>
+            <button class="wide-button" (click)="saveTextFile($event, 'a')">Save to local file</button>
+          </p>-->
+
+          <div #xmlDiv>
+            <p mySpy class="tab0">{{dX}}</p>
+            <p mySpy class="tab0">{{dORes}}</p>
+
+            <div *ngFor="let c of r">
+              <div *ngIf="entries[c].show">
+                <p mySpy class="tab1">{{dOTag}}</p>
+                <p mySpy class="tab2" *ngFor="let l of assembleElement(c); let i = index">{{l}}</p>
+                <p mySpy class="tab1">{{dCTag}}</p>
+              </div>
+            </div>
+
+            <p mySpy class="tab0">{{dCRes}}</p>
+          </div>
+        </div>
+
+      </template>
+    </ngb-tab>
+  </ngb-tabset>
 </div>
-<div class="right">
-  <h2>Configuration Output</h2>
-  <p><i>Copy and paste this into a configuration file for use with the Launcher</i></p>
-  <p><br></p>
 
-<div class="xmlFormat">
-  <p>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</p>
-  <p class="tab1">&lt;restrictions xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; &gt;</p>
 
-  <p class="tab2">&lt;restriction</p>
-  <p class="tab3">android:key=&quot;disable.apps.button&quot;</p>
-  <p class="tab3">android:defaultValue=&quot;{{disableAppsButton}}&quot;</p>
-  <p class="tab3">android:restrictionType=&quot;bool&quot;</p>
-  <p class="tab3">android:title=&quot;All apps button is visible&quot; /&gt;</p>
 
-  <p class="tab2">&lt;restriction</p>
-  <p class="tab3">android:key=&quot;hide.google.search.bar&quot;</p>
-  <p class="tab3">android:defaultValue=&quot;{{hideGoogleSearchBar}}&quot;</p>
-  <p class="tab3">android:restrictionType=&quot;bool&quot;</p>
-  <p class="tab3">android:title=&quot;Hides the Google search bar at the top.&quot; /&gt;</p>
-
-  <p class="tab2">&lt;restriction</p>
-  <p class="tab3">android:key=&quot;app.filter.list&quot;</p>
-  <p class="tab3">android:defaultValue=&quot;[</p>
-  <p class="tab4" *ngFor="let a of appFilterList; let i = index">{{quoteString}}{{a}}{{quoteString}}<span *ngIf="i != appFilterList.length-1">,</span></p>
-  <p class="tab3">]&quot;</p>
-  <p class="tab3">android:restrictionType=&quot;string&quot;</p>
-  <p class="tab3">android:title=&quot;White list of apps allowed to appear in the app drawer&quot; /&gt;</p>
-
-  <p class="tab2">&lt;restriction</p>
-  <p class="tab3">android:key=&quot;reserved.areas&quot;</p>
-  <p class="tab3">android:defaultValue=&quot; {{bracketOpen}}</p>
-  <p class="tab3">{{quoteString}}gridReservedCells{{quoteString}}: [</p>
-  <p class="tab4">
-    <ng-container *ngFor="let r of resArea; let i = index">
-      [
-    <ng-container *ngFor="let c of resArea; let j = index">
-      {{resArea[i][j]}}<span *ngIf="j != 3">,</span>
-    </ng-container>
-      ]<span *ngIf="i != 3">,</span>
-  </ng-container></p>
-  <p class="tab3">],</p>
-  <p class="tab4">{{quoteString}}hotseatReservedCells{{quoteString}}: [</p>
-  <p class="tab4">
-    <ng-container *ngFor="let r of resHotSeat; let i = index">
-        {{resHotSeat[i]}}<span *ngIf="i != 4">,</span>
-    </ng-container></p>
-  <p class="tab3">] {{bracketClose}}&quot;</p>
-  <p class="tab3">android:restrictionType=&quot;string&quot;</p>
-  <p class="tab3">android:title=&quot;Reserved areas on the screen where icons cannot be placed&quot; /&gt;</p>
-
-  <p class="tab1">&lt;/restrictions&gt;</p>
-</div>
-</div>

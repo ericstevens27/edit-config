@@ -31,8 +31,11 @@ export const ENTRIES: restriction[] = [
   {id: 6, key: 'initial.layout', type: 'string', title: 'Initial Layout for icons on screens', valueType: 'xml', value: [], show: false},
   {id: 7, key: 'preferred.items.location', type: 'string', title: 'Preferred locations for icons on screens', valueType: 'json', value: {}, show: false},
   {id: 8, key: 'analytics.account.id', type: 'string', title: 'Analytics account ID, currently used for Flurry', valueType: 'string', value: '', show: false},
-  {id: 9, key: 'initial.apps.shortcuts', type: 'bool', title: 'Create shortcuts for all the existing apps in the space', valueType: 'boolean', value: false, show: false}
+  {id: 9, key: 'initial.apps.shortcuts', type: 'bool', title: 'Create shortcuts for all the existing apps in the space', valueType: 'boolean', value: false, show: false},
+  {id: 10, key: 'widget.dynamic.placement', type: 'string', title: 'Screen lcoations for widgets', valueType: 'json', value: {}, show: false},
+  {id: 11, key: 'content.wall.hook.image', type: 'string', title: 'The image icon for the tab of the slider content wall', valueType: 'string', value: '', show: false},
+  {id: 12, key: 'content.wall.hook.color', type: 'string', title: 'The color of the tab of the slider content wall', valueType: 'string', value: '', show: false}
 ];
 
-export const range = [0,1,2,3,4,5,6,7,8,9]; // add to this for every line added in the entries table
+export const range = [0,1,2,3,4,5,6,7,8,9,10,11,12]; // add to this for every line added in the entries table
 

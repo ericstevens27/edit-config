@@ -1,26 +1,50 @@
-.xmlFormat {
-   font-family: monospace;
+.entry {
+  width: 30em;
+}
+
+.tight {
+  padding-bottom: 0px;
+  maring-bottom: 0;
 }
 
 .options {
   padding-bottom: 5px;
+  margin-bottom: 0;
+}
 
+.list {
+  padding-left: 10px;
+  margin-bottom: 0;
+}
+
+.tab0 {
+  margin-left: 0;
+  font-family: monospace;
+  margin-bottom: 0;
 }
 
 .tab1 {
   margin-left: 1em;
+  font-family: monospace;
+  margin-bottom: 0;
 }
 
 .tab2 {
   margin-left: 2em;
+  font-family: monospace;
+  margin-bottom: 0;
 }
 
 .tab3 {
   margin-left: 3em;
+  font-family: monospace;
+  margin-bottom: 0;
 }
 
 .tab4 {
   margin-left: 4em;
+  font-family: monospace;
+  margin-bottom: 0;
 }
 
 .left {
@@ -29,9 +53,29 @@
 }
 
 .right {
-  padding-left: 45em;
+  padding-left: 35em;
 }
 
 h1 {
   padding-left: 10px;
 }
+
+.wide-button {
+  width: 20em;
+}
+
+button {
+  display: inline-block;
+  height: 30px;
+  padding: 0;
+  margin: 0;
+  vertical-align: top;
+  width: 30px;
+}
+
+.close-image img {
+  display: block;
+  height: 30px;
+  width: 30px;
+}
+
