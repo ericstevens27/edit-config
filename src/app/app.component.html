@@ -186,6 +186,20 @@
                   {{a}}</p>
               </template>
             </ngb-panel>
+            <ngb-panel title="Pinned Items: {{pinnedEditList.length}} entries">
+              <template ngbPanelContent>
+                <p class="options">Enter a Package Name and the required information <br>to set the apps that should be pinned in their location</p>
+                <p class="options>">Package Name: <input type="input" [(ngModel)]="pinnedPackageName"/></p>
+                <p class="options">Is Pinned? <input type="checkbox" [(ngModel)]="pinnedIsPinned"/></p>
+                <p class="options>">
+                  <button (click)="onAddpinned($event)">Add</button>
+                </p>
+                <p class="options"><i>Apps that will be placed (click to remove):</i></p>
+                <p *ngFor="let a of pinnedEditList" [class.selected]="a === selectedApp" (click)="onRemovepinned(a)">
+                  {{a}}</p>
+              </template>
+            </ngb-panel>
+
             <ngb-panel title="Analytics Account ID: {{entries[8].value}}">
               <template ngbPanelContent>
                 <p class="options">Enter the Account ID for Flurry Analytics<br>

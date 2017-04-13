@@ -34,8 +34,9 @@ export const ENTRIES: restriction[] = [
   {id: 9, key: 'initial.apps.shortcuts', type: 'bool', title: 'Create shortcuts for all the existing apps in the space', valueType: 'boolean', value: false, show: false},
   {id: 10, key: 'widget.dynamic.placement', type: 'string', title: 'Screen lcoations for widgets', valueType: 'json', value: {}, show: false},
   {id: 11, key: 'content.wall.hook.image', type: 'string', title: 'The image icon for the tab of the slider content wall', valueType: 'string', value: '', show: false},
-  {id: 12, key: 'content.wall.hook.color', type: 'string', title: 'The color of the tab of the slider content wall', valueType: 'string', value: '', show: false}
+  {id: 12, key: 'content.wall.hook.color', type: 'string', title: 'The color of the tab of the slider content wall', valueType: 'string', value: '', show: false},
+  {id: 13, key: 'pinned.items', type: 'string', title: 'Allows for the changing of the pinned status of items', valueType: 'json', value: [], show: false}
 ];
 
-export const range = [0,1,2,3,4,5,6,7,8,9,10,11,12]; // add to this for every line added in the entries table
+export const range = [0,1,2,3,4,5,6,7,8,9,10,11,12,13]; // add to this for every line added in the entries table
 
