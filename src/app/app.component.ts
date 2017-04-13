@@ -1,5 +1,5 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import * as FileSaver from "file-saver";
+
 import {
   restriction,
   descOpenRestrictions,
@@ -85,6 +85,11 @@ export class AppComponent {
   prefX = '0';
   prefY = '0';
   prefRow = "";
+  pinnedList = [];
+  pinnedEditList = [];
+  pinnedPackageName = '';
+  pinnedIsPinned = false;
+  pinnedRow = "";
   elementList = [];
   stringEncoded = '';
   count = 0;
@@ -246,6 +251,28 @@ export class AppComponent {
 
   }
 
+  onAddpinned(event: any) { // without type info
+    this.pinnedRow = '{ ';
+    this.pinnedRow = this.pinnedRow + '"packageName":"' + this.pinnedPackageName + '", ';
+    this.pinnedRow = this.pinnedRow + '"type":4, ';
+    this.pinnedRow = this.pinnedRow + '"isPinned":';
+    if (this.pinnedIsPinned) {
+      this.pinnedRow = this.pinnedRow + 'true }'
+    } else {
+      this.pinnedRow = this.pinnedRow + 'false }'
+    }
+    this.entries[13].value.push(JSON.parse(this.pinnedRow));
+    console.log(JSON.parse(this.pinnedRow))
+    console.log(this.entries[13].value)
+    this.pinnedEditList.push(this.pinnedPackageName);
+    this.pinnedPackageName = '';
+    if (this.pinnedEditList.length != 0) {
+      this.entries[13].show = true;
+    }else{
+      this.entries[13].show = false;
+    }
+  }
+
   onAddwid(event: any) { // without type info
     this.widRow = '{ ';
     this.widRow = this.widRow + '"packageName":"' + this.widPackageName + '", ';
@@ -344,6 +371,18 @@ export class AppComponent {
     }
   }
 
+
+  onRemovepinned(pinned: string): void {
+    const index = this.pinnedEditList.indexOf(pinned);
+    this.entries[13].value.splice(index, 1);
+    this.pinnedEditList.splice(index, 1);
+    if (this.pinnedEditList.length != 0) {
+      this.entries[13].show = true;
+    }else{
+      this.entries[13].show = false;
+    }
+  }
+
   onRemovewid(wid: string): void {
     const index = this.widEditList.indexOf(wid);
     this.entries[10].value.splice(index, 1);
@@ -376,20 +415,7 @@ export class AppComponent {
     }
   }
 
-  saveTextFile(event: any, id: string) {
-    console.log(this.div.nativeElement.textContent)
-      this.textFull = this.cleanText(this.div.nativeElement.textContent);
-/*    for (let line of hostElem.children) {
-      if (hostElem.textContent != '') {
-        this.textFull = this.textFull + hostElem.textContent;
-        console.log("this line is: " + hostElem.textContent);
-      }
-    }*/
-    let file = new File([this.textFull], "hello.txt", {type: "text/plain;charset=utf-8"});
-      FileSaver.saveAs(file, "hello.txt");
-      console.log("full text file: " + this.textFull);
 
-  }
 
   cleanText(s: string): string {
     this.tmp = s.replace(/"  "/g, '');
